@@ -21,6 +21,7 @@ WARN_ROLE_ID = int(os.getenv("WARN_ROLE_ID"))
 ADMIN_ROLE_ID = int(os.getenv("ADMIN_ROLE_ID"))
 MEMBER_ROLL_ID = int(os.getenv("MEMBER_ROLL_ID"))
 ICON_PATH = os.getenv("ICON_PATH")
+AFK_Channel_ID = int(os.getenv("AFK_Channel_ID"))
 
 # Giving the bot discord permissions
 intents = discord.Intents.default()
@@ -81,7 +82,7 @@ async def roller(interaction: discord.Interaction,member: discord.Member):
 @bot.tree.command(name="toafk", description="Move to AFK.")
 @app_commands.describe(member="The member you want to move to AFK")
 async def zbaleh(interaction: discord.Interaction, member: discord.Member):
-    await member.move_to(interaction.guild.get_channel(1398436106176954379))
+    await member.move_to(interaction.guild.get_channel(AFK_Channel_ID))
     await interaction.response.send_message(f"{member.mention} was moved to AFK channel")
     return
 
@@ -173,8 +174,8 @@ async def convert(interaction: discord.Interaction, amount: float, currency: str
 @bot.tree.command(name="move", description="Move all member from your current voice channel to another chosen one.")
 @app_commands.describe(channel="the channel you want to move all members to")
 async def move(interaction: discord.Interaction, channel: discord.VoiceChannel):
-    if interaction.user.id != 542041823812648982:
-        await interaction.response.send_message("You don't have permissions to use this command", ephemeral=True)
+    if interaction.user.roles and ADMIN_ROLE_ID not in [role.id for role in interaction.user.roles]:
+        await interaction.response.send_message("بس يا ملقوف ما عندك صلاحيات للامر")
         return
         
     user = interaction.user
