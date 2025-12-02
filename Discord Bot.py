@@ -194,6 +194,23 @@ async def move(interaction: discord.Interaction, channel: discord.VoiceChannel):
 
     await interaction.response.send_message(f"Moved {len(moved_members)} members to **{channel}**.")
 
+@bot.tree.command(name="banner",description="Fetch and display the banner of a specified server member.")
+@app_commands.describe(member="The member whose banner you want to view")
+async def banner(interaction:discord.Interaction,member: discord.Member):
+    user = await bot.fetch_user(member.id)
+    if user.banner is None:
+        await interaction.response.send_message(
+            f"{member.name} has no banner set.",
+            ephemeral=True
+        )
+        return
+    embed = discord.Embed(
+        title=f"{member.name}'s banner"
+    )
+    embed.set_image(url=user.banner.url)
+    embed.set_footer(text=f"Requested by {interaction.user.name}")
+    await interaction.response.send_message(embed=embed)
+
 """                     End of Command section                             """
 
 
