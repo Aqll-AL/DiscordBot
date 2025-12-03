@@ -538,7 +538,18 @@ async def on_voice_state_update(member, before, after):
             await log_channel.send(embed=embed)
             break
 
+
+@bot.event
+async def on_message(message):
+    if "Gift 50$ steamcommunity.com/summer/50" in message.content:
+        await message.delete()
+    if ".com" in message.content.lower():
+        if message.author.joined_at.day == datetime.today().day and message.author.joined_at.year == datetime.today().year and message.author.joined_at.month == datetime.today().month:
+            await message.delete()
+
+
 """                     End of Log/events section                             """
+
 
 # To start the bot
 def run_bot():
