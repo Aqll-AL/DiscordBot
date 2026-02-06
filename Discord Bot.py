@@ -212,6 +212,13 @@ async def banner(interaction:discord.Interaction,member: discord.Member):
     embed.set_footer(text=f"Requested by {interaction.user.name}")
     await interaction.response.send_message(embed=embed)
 
+@bot.tree.command(name="join",description='let the bot join the voice room')
+async def join(interaction: discord.Interaction):
+    if interaction.user.voice:
+        await interaction.user.voice.channel.connect()
+    else:
+        await interaction.response.send_message('Join a voice room first.',ephemeral=True)
+
 """                     End of Command section                             """
 
 
